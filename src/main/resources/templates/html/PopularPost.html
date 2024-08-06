@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인기글 목록</title>
+    <link rel="stylesheet" th:href="@{/css/PopularPost.css}"/>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="nav-container">
+            <div class="nav">
+                <div class="nav-item">
+                    <a href="#" th:href="@{/mainPage}">
+                        <img src="../img/home.png" alt="Home" class="nav-icon" style="background: #00BA8D;">
+                        <p class="nav-text">메인홈</p>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a  th:href="@{/popularPosts}">
+                        <img src="../img/dvr.png" alt="DVR" class="nav-icon" style="background: rgb(190, 190, 190);">
+                        <p class="nav-text">게시판</p>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a  th:href="@{/WriteAdvise}">
+                        <img src="../img/create.png" alt="Create" class="nav-icon" style="background: rgb(190, 190, 190);">
+                        <p class="nav-text">글쓰기</p>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a  th:href="@{/survey}">
+                        <img src="../img/check.png" alt="Check" class="nav-icon" style="background: rgb(190, 190, 190);">
+                        <p class="nav-text">자가진단</p>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" th:href="@{/myPage}">
+                        <img src="../img/person.png" alt="Person" class="nav-icon" style="background: rgb(190, 190, 190);">
+                        <p class="nav-text">마이페이지</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="main-screen">
+
+                <a th:href="@{/mainPage}">
+                    <img class="back" src="../img/backimg.svg" alt="Back">
+                </a>
+
+                <p class="page-title">실시간 인기글</p>
+
+                <div class="post-list">
+                    <div th:each="question, iterStat : ${top3Questions}">
+                        <div class="post-item">
+                            <div class="rank" th:text="${iterStat.index + 1}"></div>
+                            <a th:href="@{|/OpenPostPage2/${question.id}|}" th:text="${question.subject}" class="post-title"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gray-space"></div>
+
+                <div class="filters">
+                    <select class="category-filter">
+                        <option value="카테고리">카테고리</option>
+                    </select>
+                    <select class="popularity-filter">
+                        <option value="?sort=vote" th:selected="${param.sort == 'vote'}">인기순</option>
+                        <option value="?sort=date" th:selected="${param.sort == 'date'}">날짜순</option>
+
+                    </select>
+                </div>
+
+                <div class="post-list2">
+                    <div th:each="question : ${questionList}">
+                        <div class="post-item2">
+                            <p class="post-title2">
+                                <a th:href="@{|/OpenPostPage2/${question.id}|}" th:text="${question.subject}"></a>
+                            </p>
+                            <p class="post-description2" th:text="${question.content}"></p>
+                            <p class="post-info2">
+<!--                                <span th:text="${#dates.format(question.creationDate, 'yyyy-MM-dd')}"></span> ·-->
+<!--                                댓글 <span th:text="${question.comments.size()}"></span>-->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <button class="write-post-btn" th:onclick="|window.location.href='@{/question/create}'|">글쓰기</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
